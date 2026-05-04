@@ -1,3 +1,54 @@
-woww
-web
-hook
+{
+  "Version": "2012-10-17",
+  "Id": "example-ID",
+  "Statement": [
+    {
+      "Sid": "AllowS3Publish",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "s3.amazonaws.com"
+      },
+      "Action": "SNS:Publish",
+      "Resource": "arn:aws:sns:us-east-1:704324226398:MyEmailTopic",
+      "Condition": {
+        "ArnLike": {
+          "aws:SourceArn": "arn:aws:s3:::my-trigger-bucket-akshara"
+        },
+        "StringEquals": {
+          "aws:SourceAccount": "704324226398"
+        }
+      }
+    }
+  ]
+}
+
+
+
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "AllowSNSToSendMessage",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "sns.amazonaws.com"
+      },
+      "Action": "sqs:SendMessage",
+      "Resource": "arn:aws:sqs:us-east-1:704324226398:s3snssqslambdaqueue",
+      "Condition": {
+        "ArnEquals": {
+          "aws:SourceArn": "arn:aws:sns:us-east-1:704324226398:s3snssqslambdatopic"
+        }
+      }
+    }
+  ]
+}
+
+def lambda_handler(event, context):
+    for record in event['Records']:
+        print("Message received from SQS:")
+        print(record['body'])
+    return {
+        'statusCode': 200,
+        'body': 'Message processed successfully'
+    }
