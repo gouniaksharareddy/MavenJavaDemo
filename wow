@@ -99,7 +99,7 @@ mkfs.xfs /dev/xfdb1
 mkdir /mnt/aksh
 mount /dev/xfdb1 /mnt/aksh
 blkid /dev/xfdb1
-UUID=------------------ /mnt/aksh xfs defaults,nofail 0 0
+UUID=------------------ /mnt/aksh xfs defaults,nofail 0 0  add in /etc/fstab
 
 
 yum install amazon-efs-utils
