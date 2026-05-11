@@ -92,3 +92,15 @@ def lambda_handler(event, context):
 
 
 scp -i bastian.pem dbserver.pem ubuntu@<ipv4>:/home/ubuntu/
+
+lsblk
+fdisk /dev/xfdb
+mkfs.xfs /dev/xfdb1
+mkdir /mnt/aksh
+mount /dev/xfdb1 /mnt/aksh
+blkid /dev/xfdb1
+UUID=------------------ /mnt/aksh xfs defaults,nofail 0 0
+
+
+yum install amazon-efs-utils
+yum install python3-botocore
